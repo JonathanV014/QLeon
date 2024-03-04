@@ -9,7 +9,7 @@ class Lexer:
         self.__tokens = []
         self.__chr = self.__code[self.__i]
         self.__token = None
-        self.__clean()
+        
 
     
     def tokenizer(self):
@@ -17,10 +17,18 @@ class Lexer:
 
             if self.__chr in Lexer.__numbers: 
                 self.__token = self.__extractNumber()
+
+            elif self.__chr in Lexer.__stopWords:
+                self.__moveI()
+                continue    
                 
             elif self.__chr in Lexer.__operations: 
                 self.__token = Operation(self.__chr)
                 self.__moveI()
+            else:
+                self.__moveI()
+                continue  
+            
 
             self.__tokens.append(self.__token)
         return self.__tokens
@@ -87,11 +95,11 @@ class Operation(Token):
         super().__init__("OPERATION", tokenValue)
     
 
-lex = Lexer("5+5")
-print(lex.getCode())
-print("------------------")
-lex.tokenizer()
-print("------------------")
-print(lex.getTokens())
+#lex = Lexer("5+5")
+#print(lex.getCode())
+#print("------------------")
+#lex.tokenizer()
+#print("------------------")
+#print(lex.getTokens())
 
 
