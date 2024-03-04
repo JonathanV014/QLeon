@@ -20,10 +20,16 @@ class Lexer:
     
     def __extractNumber(self):
         number = ""
-        while (self.__chr in Lexer.__numbers) and (self.__i < len(self.__code)):
+        isFloat = False
+        while (self.__chr in Lexer.__numbers or self.__chr == ".") and (self.__i < len(self.__code)):
+            if self.__chr == ".":
+                isFloat = True
             number += self.__chr
             self.__moveI()
-        return Integer(number, 'INTEGER')
+        if isFloat:
+            return Float(number)
+        else:
+            return Integer(number)
 
     def __moveI(self):
         self.__i += 1
@@ -59,14 +65,15 @@ class Token:
         return self.__tokenValue
 
 class Integer(Token):
-    pass
+    def __init__(self, tokenValue):
+        super().__init__("INTEGER", tokenValue)
 
-class String(Token):
-    pass
-     
+class Float(Token):
+    def __init__(self, tokenValue):
+        super().__init__("FLOAT", tokenValue)
     
 
-lex = Lexer("5      +     5")
+lex = Lexer("5      +     5.5")
 print(lex.getCode())
 print("------------------")
 lex.tokenizer()
