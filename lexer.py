@@ -1,6 +1,7 @@
 class Lexer:
     __stopWords = [" "]
     __numbers =  "0123456789"
+    __operations = "+-/*"
 
     def __init__(self, code:str):
         self.__code = code
@@ -13,11 +14,17 @@ class Lexer:
     
     def tokenizer(self):
         while self.__i < len(self.__code):
-            if self.__chr in Lexer.__numbers:
+
+            if self.__chr in Lexer.__numbers: 
                 self.__token = self.__extractNumber()
-                self.__tokens.append(self.__token)
-            self.__moveI()
-    
+                
+            elif self.__chr in Lexer.__operations: 
+                self.__token = Operation(self.__chr)
+                self.__moveI()
+
+            self.__tokens.append(self.__token)
+        return self.__tokens
+
     def __extractNumber(self):
         number = ""
         isFloat = False
@@ -30,7 +37,7 @@ class Lexer:
             return Float(number)
         else:
             return Integer(number)
-
+        
     def __moveI(self):
         self.__i += 1
         if self.__i < len(self.__code):
@@ -58,6 +65,9 @@ class Token:
         self.__tokenType = tokenType
         self.__tokenValue = tokenValue
     
+    def __repr__(self):
+        return self.__tokenValue
+    
     def getTokenType(self):
         return self.__tokenType
     
@@ -71,9 +81,13 @@ class Integer(Token):
 class Float(Token):
     def __init__(self, tokenValue):
         super().__init__("FLOAT", tokenValue)
+
+class Operation(Token):
+    def __init__(self, tokenValue):
+        super().__init__("OPERATION", tokenValue)
     
 
-lex = Lexer("5      +     5.5")
+lex = Lexer("5+5")
 print(lex.getCode())
 print("------------------")
 lex.tokenizer()
