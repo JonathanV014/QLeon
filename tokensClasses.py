@@ -43,3 +43,7 @@ class Variable(Token):
 class Comparison(Token):
     def __init__(self, tokenValue):
         super().__init__("COMPARISON", tokenValue)
+
+class Commend(Token):
+    def __init__(self, tokenValue):
+        super().__init__("COMMEND", tokenValue)
