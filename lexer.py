@@ -9,7 +9,7 @@ class Lexer:
     __declarations = ["crt"] #Crear Variable crt = create
     __reserved = ["if", "elif","else", "while", "do"]
 
-    __specialCharacters = [">", "<", "=", "?", "&", "|", "!"]   
+    __specialCharacters = [">", "<", "=", "?", "&", "|", "!", "#"]   
     __booleans = ["&&", "||", "!"]
     __comparisons = [">", "<", ">=", "<=", "=?"]
     __commend = ["###"] #Proximo por hacer
@@ -57,6 +57,12 @@ class Lexer:
                     
                 elif specialChar in Lexer.__booleans:
                     self.__token = Boolean(specialChar)
+
+                elif specialChar in Lexer.__commend:
+                    self.__token = Commend(specialChar)
+                    self.__tokens.append(self.__token)
+                    self.__i = len(self.__code)
+                    continue
                 
             
 
@@ -108,6 +114,30 @@ class Lexer:
     
     def getStopWords(self):
         return Lexer.__stopWords
+    
+    def getOperations(self):
+        return Lexer.__operations
+
+    def getLetters(self):
+        return Lexer.__letters
+    
+    def getDeclarations(self):
+        return Lexer.__declarations
+    
+    def getReserved(self):
+        return Lexer.__reserved
+    
+    def getSpecialCharacters(self):
+        return Lexer.__specialCharacters
+    
+    def getBooleans(self):
+        return Lexer.__booleans
+    
+    def getComparisons(self):
+        return Lexer.__comparisons
+    
+    def getCommend(self):
+        return Lexer
     
     def getTokens(self):
         return self.__tokens
