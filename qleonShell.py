@@ -11,7 +11,7 @@ HELPOUTPUT = "help()---> "
 EXITCOMMANDSHELP = ["ex", "exit"]
 
 
-print(f"QLeon {VERSION} (v{VERSION}, {DATECREATION}) on win32")
+print(f"\nQLeon {VERSION} (v{VERSION}, {DATECREATION}) on win32")
 
 print(f'Write "{HELPCOMMAND}" for more information')
 

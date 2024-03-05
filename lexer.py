@@ -1,7 +1,18 @@
+from tokensClasses import *
 class Lexer:
+    #Tabla de Simbolos / Para mejorar 
     __stopWords = [" "]
     __numbers =  "0123456789"
-    __operations = "+-/*"
+    __operations = "+-/*()="
+
+    __letters = "abcñdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZÑ"
+    __declarations = ["crt"] #Crear Variable crt = create
+    __reserved = ["if", "elif","else", "while", "do"]
+
+    __specialCharacters = [">", "<", "=", "?", "&", "|", "!"]   
+    __booleans = ["&&", "||", "!"]
+    __comparisons = [">", "<", ">=", "<=", "=?"]
+    __commend = ["###"]
 
     def __init__(self, code:str):
         self.__code = code
@@ -9,8 +20,7 @@ class Lexer:
         self.__tokens = []
         self.__chr = self.__code[self.__i]
         self.__token = None
-        
-
+      
     
     def tokenizer(self):
         while self.__i < len(self.__code):
@@ -25,13 +35,46 @@ class Lexer:
             elif self.__chr in Lexer.__operations: 
                 self.__token = Operation(self.__chr)
                 self.__moveI()
-            else:
-                self.__moveI()
-                continue  
+    
+            elif self.__chr in Lexer.__letters:
+                word = self.__extractWord()
+                
+                if word in Lexer.__declarations:     
+                    self.__token = Declaration(word)
+
+                elif word in Lexer.__reserved:
+                    self.__token = Reserved(word)
+                else: 
+                    self.__token = Variable(word)
+
+
+            elif self.__chr in Lexer.__specialCharacters:
+                specialChar = self.__extractEspecialChar()
+
+                if specialChar in Lexer.__comparisons:
+                    self.__token = Comparison(specialChar)
+                    
+                elif specialChar in Lexer.__booleans:
+                    self.__token = Boolean(specialChar)
+                
             
 
             self.__tokens.append(self.__token)
         return self.__tokens
+
+    def __extractWord(self):
+        word = ""
+        while (self.__chr in Lexer.__letters) and (self.__i < len(self.__code)):
+            word += self.__chr
+            self.__moveI()
+        return word                                      
+
+    def __extractEspecialChar(self):
+        especialChar = ""
+        while (self.__chr in Lexer.__specialCharacters) and (self.__i < len(self.__code)):
+            especialChar += self.__chr 
+            self.__moveI()
+        return especialChar 
 
     def __extractNumber(self):
         number = ""
@@ -67,32 +110,7 @@ class Lexer:
     
     def getTokens(self):
         return self.__tokens
-    
-class Token:
-    def __init__(self,  tokenType, tokenValue):
-        self.__tokenType = tokenType
-        self.__tokenValue = tokenValue
-    
-    def __repr__(self):
-        return self.__tokenValue
-    
-    def getTokenType(self):
-        return self.__tokenType
-    
-    def getTokenValue(self):
-        return self.__tokenValue
 
-class Integer(Token):
-    def __init__(self, tokenValue):
-        super().__init__("INTEGER", tokenValue)
-
-class Float(Token):
-    def __init__(self, tokenValue):
-        super().__init__("FLOAT", tokenValue)
-
-class Operation(Token):
-    def __init__(self, tokenValue):
-        super().__init__("OPERATION", tokenValue)
     
 
 #lex = Lexer("5+5")
