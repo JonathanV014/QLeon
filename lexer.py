@@ -12,8 +12,8 @@ class Lexer:
     __specialCharacters = [">", "<", "=", "?", "&", "|", "!"]   
     __booleans = ["&&", "||", "!"]
     __comparisons = [">", "<", ">=", "<=", "=?"]
-    __commend = ["###"]
-    
+    __commend = ["###"] #Proximo por hacer
+
 
     def __init__(self, code:str):
         self.__code = code

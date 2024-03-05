@@ -2,4 +2,6 @@
 **/Pipfile
 **/Pipfile.lock
 
-.gitignore
+**/lexerPY.png
+**/UML QLeon.drawio
+**/tokensClassesPY.png 
