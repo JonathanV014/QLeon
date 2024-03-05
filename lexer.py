@@ -13,6 +13,7 @@ class Lexer:
     __booleans = ["&&", "||", "!"]
     __comparisons = [">", "<", ">=", "<=", "=?"]
     __commend = ["###"]
+    
 
     def __init__(self, code:str):
         self.__code = code
